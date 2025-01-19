@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../app.css';
-	import { DarkMode } from 'flowbite-svelte';
+	import { DarkMode, Indicator } from 'flowbite-svelte';
 	import { Navbar, NavBrand, NavLi, NavUl, NavHamburger } from 'flowbite-svelte';
 	import { getSpotifyAuthUrl } from '$lib/spotifyAuth';
 	import { GradientButton } from 'flowbite-svelte';
@@ -24,19 +24,15 @@
 	$: activeUrl = '/';
 </script>
 
-<Navbar>
-	<NavBrand href="/">
+<header class="flex items-center justify-between p-10">
+	<h1 class="text-4xl font-semibold dark:text-white">Listed</h1>
+	<div class="flex items-center gap-2">
+		{#if loggedin}
+			<Indicator color="green" size="lg"></Indicator>
+		{:else}
+			<GradientButton shadow color="green" on:click={login}>Log in with Spotify</GradientButton>
+		{/if}
 		<DarkMode />
-		<span class="navbar-expand-lg text-4xl font-semibold dark:text-white">Listed</span>
-	</NavBrand>
-	<NavUl {activeUrl}>
-		<NavLi>
-			{#if loggedin}
-				<GradientButton shadow color="green" on:click={login}>Logged in</GradientButton>
-			{:else}
-				<GradientButton shadow color="green" on:click={login}>Login with Spotify</GradientButton>
-			{/if}
-		</NavLi>
-	</NavUl>
-</Navbar>
+	</div>
+</header>	
 <slot></slot>

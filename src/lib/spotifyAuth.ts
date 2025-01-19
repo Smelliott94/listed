@@ -31,6 +31,6 @@ export async function getSpotifyAuthUrl() {
 		`&redirect_uri=${redirectUri}` +
 		`&code_challenge_method=S256` +
 		`&code_challenge=${challenge}` +
-		`&scope=playlist-read-private playlist-read-collaborative user-read-email`
+		`&scope=playlist-read-private playlist-read-collaborative user-read-email user-read-private`
 	);
 }

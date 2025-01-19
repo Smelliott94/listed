@@ -7,7 +7,6 @@ export async function GET({ url, cookies }) {
 	if (!code) throw redirect(302, '/');
 
 	const verifier = cookies.get('pkce_verifier'); // Retrieve saved PKCE code
-	console.log(verifier);
 
 	const response = await fetch('https://accounts.spotify.com/api/token', {
 		method: 'POST',

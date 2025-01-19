@@ -3,15 +3,24 @@
 	import { DarkMode } from 'flowbite-svelte';
 	import { Navbar, NavBrand, NavLi, NavUl, NavHamburger } from 'flowbite-svelte';
 	import { getSpotifyAuthUrl } from '$lib/spotifyAuth';
-	import type { Playlist, PlaylistResponse } from '$lib/types/spotify';
-	import { Card, GradientButton } from 'flowbite-svelte';
+	import { GradientButton } from 'flowbite-svelte';
+	import { onMount } from 'svelte';
 
-	let playlists: Playlist[] = [];
+	let loggedin = false;
 
 	async function login() {
 		const url = await getSpotifyAuthUrl();
 		window.location.href = url;
 	}
+	async function checkLogin() {
+		const response = await fetch('/api/check-auth');
+		const data = await response.json();
+		loggedin = data.loggedin;
+	}
+
+	onMount(() => {
+		checkLogin();
+	});
 	$: activeUrl = '/';
 </script>
 
@@ -22,11 +31,13 @@
 	</NavBrand>
 	<NavHamburger />
 	<NavUl {activeUrl}>
-		<NavLi
-			><GradientButton shadow color="green" on:click={login}
-				>Login with Spotify
-			</GradientButton></NavLi
-		>
+		<NavLi>
+			{#if loggedin}
+				<GradientButton shadow color="green" on:click={login}>Logged in</GradientButton>
+			{:else}
+				<GradientButton shadow color="green" on:click={login}>Login with Spotify</GradientButton>
+			{/if}
+		</NavLi>
 	</NavUl>
 </Navbar>
 <slot></slot>

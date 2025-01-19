@@ -29,7 +29,6 @@
 		<DarkMode />
 		<span class="navbar-expand-lg text-4xl font-semibold dark:text-white">Listed</span>
 	</NavBrand>
-	<NavHamburger />
 	<NavUl {activeUrl}>
 		<NavLi>
 			{#if loggedin}
